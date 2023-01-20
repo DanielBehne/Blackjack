@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class Cards {
-    private int value;
+    public int value;
     private String[] suit = {"Spades", "Clubs", "Hearts", "Diamonds"};
     private String[] tens = {"10", "Jack", "Queen", "King"};
     public void getCard() {
