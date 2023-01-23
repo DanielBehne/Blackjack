@@ -1,20 +1,35 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
 public class Game {
-    Scanner scanner = new Scanner(System.in);  
-    String nextLine = scanner.nextLine();
+    static boolean tro = true;
+    static int moveOn; 
     public static void main (String args[]) {
         theScript();
         next();
-
+        startTheGame();
     }
-    public static void theGame() {
 
+    public static void startTheGame() { 
+        Scanner scanner = new Scanner(System.in);
+        String nextLine = scanner.nextLine();
+        while (tro) {
+            try {
+                if (nextLine == "Play") {
+                    System.out.print("\033[H\033[2J");
+                } else {
+                    if (nextLine == "Exit") {
+                        break;
+                    }
+                }
+            } catch (InputMismatchException error) {
+                System.out.println("Please enter Play or Exit");
+            }
+        }
     }
 
     public static void next() {
-        System.out.println("Please enter 'Play' to start playing the game");
-        System.out.println("You can leave the game by typing Quit");
+        System.out.println("Please enter Play to start playing the game");
+        System.out.println("You can leave the game by typing Exit");
         System.out.println("Have Fun!"); 
     }
 
@@ -35,7 +50,7 @@ public class Game {
         System.out.println ("Jack = 10");     
         System.out.println ("Queen = 10");
         System.out.println ("King = 10");
-        System.out.println ("Each card correlates with a certain value as shown above");https://github.com/DerekNgo619/BlackJack.git
+        System.out.println ("Each card correlates with a certain value as shown above");
         System.out.println ("The goal of this game is to reach 21 with the values of the cards");
         System.out.println ("When it is your turn, you will be able to hit or fold");
         System.out.println ("When you hit, the dealer will give you another random card");
