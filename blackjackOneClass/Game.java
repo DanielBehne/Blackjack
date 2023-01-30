@@ -137,7 +137,7 @@ public class Game {
                 System.out.println("The CPU has been dealt a " + (valueCpu));
             } 
             if (!previousCardsCpu.contains(valueCpu)) {
-                previousCards.add(valueCpu);
+                previousCardsCpu.add(valueCpu);
             }
             previousCardsCpu.add(valueCpu);
         }
@@ -163,16 +163,15 @@ public class Game {
                 System.out.println((valueCpu) + (" of ") + suit[random2CPU.nextInt(suit.length)]);
                 System.out.println("The CPU has been dealt a " + (valueCpu));
             } 
-            if (!previousCards.contains(valueCpu)) {
-                previousCards.add(valueCpu);
+            if (!previousCardsCpu.contains(valueCpu)) {
+                previousCardsCpu.add(valueCpu);
             }
-            previousCards.add(valueCpu);
         }
         for(int v = 0; v<previousCards.size(); v++) {
-            totalCpu += previousCards.get(v);
+            totalCpu += previousCardsCpu.get(v);
         }
-        int cpuTotal = ((totalCpu/2)+CPUTotal/2);
-        System.out.println("The total value of the CPU's hand is " + cpuTotal);
+        int finalTotalCpu = ((totalCpu)/2);
+        System.out.println("The total value of the CPU's hand is " + finalTotalCpu);
         System.out.println(" ");
     }
     
@@ -199,7 +198,7 @@ public class Game {
         for(int v = 0; v<previousCards.size(); v++) {
             total += previousCards.get(v);
         }
-        int finalTotal = ((total)+playerTotal/4);
+        int finalTotal = ((total)+playerTotal/2);
         System.out.println("The total value of your hand is " + finalTotal);
         System.out.println(" ");
 
