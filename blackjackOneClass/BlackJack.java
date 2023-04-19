@@ -6,11 +6,11 @@ public class BlackJack {
     static boolean tro = true;
     static int moveOn; 
     static int nextLine;
-
+    static public int value;
     static public int valueCpu;
-
+    private static ArrayList<Integer> previousCards = new ArrayList<Integer>();
     private static ArrayList<Integer> previousCardsDealer = new ArrayList<Integer>();
-
+    static public int playerTotal;
     static public int dealerTotal;
     static public boolean dealerfold = false;
     static public boolean playerfold = false; 
@@ -33,20 +33,20 @@ public class BlackJack {
                 System.out.print("\u000C");
                 System.out.println("The game will commence");  
                 System.out.println(" ");
-                getCard();
+                getCard(value);
                 System.out.println(" ");
                 System.out.println("Enter Hit to hit"); 
                 System.out.println("Enter Fold to fold");
             } else {
                 if (allow == true) {
                     if (nextLine.equalsIgnoreCase("Hit")) {
-                        getCardHit();
+                        getCardHit(value);
                     }
                     if (nextLine.equalsIgnoreCase("Fold")) {
                         System.out.println(" ");
                         playerFold();
                         for (int i = 0; i == 15;i++) {
-                            getCardDealerHit();
+                            getCardDealerHit(value);
                         }
                         if (playerfold == true && dealerfold == true) {
                             int diffA = Math.abs(21 - playerTotal);
@@ -75,13 +75,9 @@ public class BlackJack {
         }
     }
 
-    static public int value; 
-    private static ArrayList<Integer> previousCards = new ArrayList<Integer>();
-    static public int playerTotal;
-    public static void getCard() {
-        //The for loop runs the program twice and the values are added to previousCards each time;
-        for(int i=1; i<=2; i++) { 
-            int value = (int) (Math.random() * 10) + 1;
+    public static void getCard(int value) {
+        for(int i=1; i<=2; i++) {
+            value = (int) (Math.random() * 10) + 1;
             if (value == 1) {
                 Random random1 = new Random();
                 System.out.println(("Ace") + (" of ") + suit[random1.nextInt(suit.length)]);
@@ -103,7 +99,7 @@ public class BlackJack {
         if (playerTotal < 21) { 
             System.out.println("The total value of your hand is " + (playerTotal));
             System.out.println(" ");
-            getCardDealer();
+            getCardDealer(valueCpu);
         } else {
             if (playerTotal == 21) {
                 System.out.println(" ");
@@ -118,10 +114,10 @@ public class BlackJack {
         }
     }
 
-    public static void getCardHit() {
+    public static void getCardHit(int value) {
         previousCards.clear();
         for(int i=1; i<=1; i++) {
-            int value = (int) (Math.random() * 10) + 1;
+            value = (int) (Math.random() * 10) + 1;
             if (value == 1) {
                 Random random7 = new Random();
                 System.out.println(("Ace") + (" of ") + suit[random7.nextInt(suit.length)]);
@@ -143,7 +139,7 @@ public class BlackJack {
         if (playerTotal < 21) { 
             System.out.println("The total value of your hand is " + (playerTotal));
             System.out.println(" ");
-            getCardDealerHit();
+            getCardDealerHit(value);
         } else {
             if (playerTotal == 21) {
                 System.out.println(" ");
@@ -164,10 +160,10 @@ public class BlackJack {
         }
     }
 
-    public static void getCardDealer() {
+    public static void getCardDealer(int value) {
         if (dealerTotal >= 0 && dealerTotal < 17) {
             for(int i=1; i<=2; i++) {
-                int value = (int) (Math.random() * 10) + 1;
+                value = (int) (Math.random() * 10) + 1;
                 if (value == 1) {
                     Random random4 = new Random();
                     System.out.println(("Ace") + (" of ") + suit[random4.nextInt(suit.length)]);
@@ -217,14 +213,14 @@ public class BlackJack {
 
     }
 
-    public static void getCardDealerHit() {
+    public static void getCardDealerHit(int value) {
         previousCardsDealer.clear();
         if (dealerfold == false) {
             if (dealerTotal >= 0 && dealerTotal < 17 || dealerTotal < playerTotal) {
                 System.out.println("The dealer has hit");
                 System.out.println(" ");
                 for(int i=1; i<=1; i++) {
-                    int value = (int) (Math.random() * 10) + 1;
+                    value = (int) (Math.random() * 10) + 1;
                     if (value == 1) {
                         Random random10 = new Random();
                         System.out.println(("Ace") + (" of ") + suit[random10.nextInt(suit.length)]);
@@ -323,7 +319,7 @@ public class BlackJack {
 
     public static void playerFold() {
         System.out.println("You have chosen to fold. The final value of your hand is " + playerTotal);
-        getCardDealerHit();
+        getCardDealerHit(value);
         playerfold = true;
     }
 
@@ -334,5 +330,11 @@ public class BlackJack {
         return tro = false;
     }
 }
+
+
+
+
+
+
 
 
