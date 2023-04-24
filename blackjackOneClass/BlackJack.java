@@ -1,81 +1,87 @@
-import java.util.Scanner;
-import java.util.InputMismatchException;
-import java.util.Random;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
 public class BlackJack {
-    static boolean tro = true;
-    static int moveOn; 
-    static int nextLine;
+    static public boolean tro = true;
+    static public int moveOn; 
     static public int value;
     static public int valueCpu;
-    private static ArrayList<Integer> previousCards = new ArrayList<Integer>();
-    private static ArrayList<Integer> previousCardsDealer = new ArrayList<Integer>();
+    public static ArrayList<Integer> previousCards = new ArrayList<Integer>();
+    public static ArrayList<Integer> previousCardsDealer = new ArrayList<Integer>();
     static public int playerTotal;
     static public int dealerTotal;
     static public boolean dealerfold = false;
     static public boolean playerfold = false; 
-    private static String[] suit = {"Spades", "Clubs", "Hearts", "Diamonds"};
-    private static String[] tens = {"10", "Jack", "Queen", "King"};
+    public static String[] suit = {"Spades", "Clubs", "Hearts", "Diamonds"};
+    public static String[] tens = {"10", "Jack", "Queen", "King"};
+    public static boolean allowforplay = true;
     public static void main (String args[]) {
-        theScript();
-        next();
+    }
+
+    public static void theGame() {
+        previousCards.clear();
+        previousCardsDealer.clear();
+        playerTotal = 0;
+        dealerTotal = 0;
+        allowforplay = true;
+        playerfold = false;
+        dealerfold = false;
+        tro = true;
+        boolean gameStarted = false;
         Scanner scanner = new Scanner(System.in);
-        boolean allow = false;
-        boolean allowforplay = true;
         while (tro) {
             String nextLine = scanner.nextLine();
             if (nextLine.equalsIgnoreCase("Exit")) {
                 tro = false;
                 System.out.println("See you later!");
-            }
-            if (nextLine.equalsIgnoreCase("Play") && allowforplay == true) {
-                allowforplay = false;
-                System.out.print("\u000C");
-                System.out.println("The game will commence");  
-                System.out.println(" ");
-                getCard(value);
-                System.out.println(" ");
-                System.out.println("Enter Hit to hit"); 
-                System.out.println("Enter Fold to fold");
-            } else {
-                if (allow == true) {
-                    if (nextLine.equalsIgnoreCase("Hit")) {
-                        getCardHit(value);
-                    }
-                    if (nextLine.equalsIgnoreCase("Fold")) {
-                        System.out.println(" ");
-                        playerFold();
-                        for (int i = 0; i == 15;i++) {
-                            getCardDealerHit(value);
-                        }
-                        if (playerfold == true && dealerfold == true) {
-                            int diffA = Math.abs(21 - playerTotal);
-                            int diffB = Math.abs(21 - dealerTotal);
-                            if (playerTotal < dealerTotal) {
-                                System.out.println("The dealer is  closer to 21 and win!");
-                                finishthegame(false);
-                            } else 
-                            if (dealerTotal < playerTotal) {
-                                System.out.println("You are closer to 21 and win!");
-                                finishthegame(false);
-                            } else {
-                                System.out.println("You and the dealer are equally close to 21!");
-                                finishthegame(false);
-                            }
-                        }
-                    }
+            } else if (nextLine.equalsIgnoreCase("Play")) {
+                if (!gameStarted) {
+                    gameStarted = true;
+                    allowforplay = false;
+                    System.out.print("\u000C");
+                    System.out.println("The game will commence");
+                    System.out.println(" ");
+                    getCard(value);
+                    System.out.println(" ");
+                    System.out.println("Enter Hit to hit");
+                    System.out.println("Enter Fold to fold");
+                } else {
+                    System.out.println("The game has already started. Please enter Hit or Fold or Exit.");
                 }
-            }
-            if (!nextLine.equalsIgnoreCase("Exit") && !nextLine.equalsIgnoreCase("Play") && tro == true) {
-                System.out.println("Please enter exit or play; if you already started the game please enter hit or fold");
+            } else if (gameStarted) {
+                if (nextLine.equalsIgnoreCase("Hit")) {
+                    getCardHit(value);
+                } else if (nextLine.equalsIgnoreCase("Fold")) {
+                    System.out.println(" ");
+                    playerFold();
+                    for (int i = 0; i < 15; i++) {
+                        getCardDealerHit(value, dealerfold);
+                    }
+                    if (playerfold == true && dealerfold == true) {
+                        int diffA = Math.abs(21 - playerTotal);
+                        int diffB = Math.abs(21 - dealerTotal);
+                        if (playerTotal < dealerTotal) {
+                            System.out.println("The dealer is  closer to 21 and win!");
+                            finishthegame(false);
+                        } else if (dealerTotal < playerTotal) {
+                            System.out.println("You are closer to 21 and win!");
+                            finishthegame(false);
+                        } else {
+                            System.out.println("You and the dealer are equally close to 21!");
+                            finishthegame(false);
+                        }
+                    }
+                } else {
+                    System.out.println("Please enter Hit or Fold or Exit");
+                }
             } else {
-                allow = true;
+                System.out.println("Please enter Exit or Play to start the game.");
             }
-
         }
     }
 
     public static void getCard(int value) {
+        previousCards.clear();
         for(int i=1; i<=2; i++) {
             value = (int) (Math.random() * 10) + 1;
             if (value == 1) {
@@ -139,7 +145,7 @@ public class BlackJack {
         if (playerTotal < 21) { 
             System.out.println("The total value of your hand is " + (playerTotal));
             System.out.println(" ");
-            getCardDealerHit(value);
+            getCardDealerHit(value, dealerfold);
         } else {
             if (playerTotal == 21) {
                 System.out.println(" ");
@@ -154,6 +160,7 @@ public class BlackJack {
                 } else {
                     System.out.println("You have busted, the dealer has won : C");
                     System.out.println(" ");
+                    getCardDealerHit(value, dealerfold == true);
                     finishthegame(false);
                 }
             }
@@ -161,6 +168,7 @@ public class BlackJack {
     }
 
     public static void getCardDealer(int value) {
+        previousCardsDealer.clear();
         if (dealerTotal >= 0 && dealerTotal < 17) {
             for(int i=1; i<=2; i++) {
                 value = (int) (Math.random() * 10) + 1;
@@ -202,18 +210,24 @@ public class BlackJack {
                             System.out.println(" ");
                             finishthegame(false);
                         } else {
-                            System.out.println("The dealers had folded; its final total is " + dealerTotal);
-                            System.out.println(" ");
-                            dealerfold = true;
+                            if (dealerTotal > playerTotal && playerfold == true && dealerTotal< 22) {
+                                System.out.println("The dealers had folded; its final total is " + dealerTotal);
+                                System.out.println(" ");
+                                dealerfold = true;
+                            } else {
+                                System.out.println("The dealers had folded; its final total is " + dealerTotal);
+                                System.out.println(" ");
+                                dealerfold = true;
+                            }
                         }
                     }
                 }
             }
-        }  
 
+        }
     }
 
-    public static void getCardDealerHit(int value) {
+    public static void getCardDealerHit(int value, boolean dealerfold) {
         previousCardsDealer.clear();
         if (dealerfold == false) {
             if (dealerTotal >= 0 && dealerTotal < 17 || dealerTotal < playerTotal) {
@@ -269,9 +283,15 @@ public class BlackJack {
                                         System.out.println("The total value of the dealer's hand is " + (dealerTotal));
                                         System.out.println(" ");
                                     } else {
-                                        System.out.println("The dealers has folded; its final total is " + dealerTotal);
-                                        System.out.println(" ");
-                                        dealerfold = true;
+                                        if (dealerTotal > playerTotal && playerfold == true && dealerTotal< 22) {
+                                            System.out.println("The dealers had folded; its final total is " + dealerTotal);
+                                            System.out.println(" ");
+                                            dealerfold = true;
+                                        } else {
+                                            System.out.println("The dealers has folded; its final total is " + dealerTotal);
+                                            System.out.println(" ");
+                                            dealerfold = true;
+                                        }
                                     }
                                 }
                             }
@@ -319,7 +339,7 @@ public class BlackJack {
 
     public static void playerFold() {
         System.out.println("You have chosen to fold. The final value of your hand is " + playerTotal);
-        getCardDealerHit(value);
+        getCardDealerHit(value, dealerfold == false);
         playerfold = true;
     }
 
@@ -330,11 +350,6 @@ public class BlackJack {
         return tro = false;
     }
 }
-
-
-
-
-
 
 
 
