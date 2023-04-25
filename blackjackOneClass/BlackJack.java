@@ -291,6 +291,9 @@ public class BlackJack {
                                             System.out.println(" ");
                                             dealerfold = true;
                                         }
+                                        if (dealerfold == true && playerfold == true) {
+                                            finishthegame(true);
+                                        }
                                     }
                                 }
                             }
