@@ -15,8 +15,7 @@ public class BlackJack {
     public static String[] suit = {"Spades", "Clubs", "Hearts", "Diamonds"};
     public static String[] tens = {"10", "Jack", "Queen", "King"};
     public static boolean allowforplay = true;
-    public static void main (String args[]) {
-    }
+    
 
     public static void theGame() {
         previousCards.clear();
@@ -55,7 +54,7 @@ public class BlackJack {
                     System.out.println(" ");
                     playerFold();
                     for (int i = 0; i < 15; i++) {
-                        getCardDealerHit(value, dealerfold);
+                        getCardDealerHit(value, dealerfold, dealerTotal);
                     }
                     if (playerfold == true && dealerfold == true) {
                         int diffA = Math.abs(21 - playerTotal);
@@ -145,7 +144,7 @@ public class BlackJack {
         if (playerTotal < 21) { 
             System.out.println("The total value of your hand is " + (playerTotal));
             System.out.println(" ");
-            getCardDealerHit(value, dealerfold);
+            getCardDealerHit(value, dealerfold, dealerTotal);
         } else {
             if (playerTotal == 21) {
                 System.out.println(" ");
@@ -160,7 +159,7 @@ public class BlackJack {
                 } else {
                     System.out.println("You have busted, the dealer has won : C");
                     System.out.println(" ");
-                    getCardDealerHit(value, dealerfold == true);
+                    getCardDealerHit(value, dealerfold == true, dealerTotal <<= 21);
                     finishthegame(false);
                 }
             }
@@ -227,7 +226,7 @@ public class BlackJack {
         }
     }
 
-    public static void getCardDealerHit(int value, boolean dealerfold) {
+    public static void getCardDealerHit(int value, boolean dealerfold, int dealerTotal) {
         previousCardsDealer.clear();
         if (dealerfold == false) {
             if (dealerTotal >= 0 && dealerTotal < 17 || dealerTotal < playerTotal) {
@@ -339,7 +338,7 @@ public class BlackJack {
 
     public static void playerFold() {
         System.out.println("You have chosen to fold. The final value of your hand is " + playerTotal);
-        getCardDealerHit(value, dealerfold == false);
+        getCardDealerHit(value, dealerfold, dealerTotal);
         playerfold = true;
     }
 
