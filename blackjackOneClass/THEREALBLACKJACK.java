@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+//THEREALBLACKJACK was developed by my collaborative partner
 public class THEREALBLACKJACK extends BlackJack 
 {
     public static void main (String args[]) {
@@ -26,4 +27,3 @@ public class THEREALBLACKJACK extends BlackJack
 
     }
 }
-

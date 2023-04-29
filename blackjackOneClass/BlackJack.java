@@ -4,11 +4,11 @@ import java.util.Scanner;
 public class BlackJack {
     static public boolean tro = true;
     static public int moveOn; 
-    static public int value;
+    
     static public int valueCpu;
-    public static ArrayList<Integer> previousCards = new ArrayList<Integer>();
+    
     public static ArrayList<Integer> previousCardsDealer = new ArrayList<Integer>();
-    static public int playerTotal;
+    
     static public int dealerTotal;
     static public boolean dealerfold = false;
     static public boolean playerfold = false; 
@@ -16,7 +16,8 @@ public class BlackJack {
     public static String[] tens = {"10", "Jack", "Queen", "King"};
     public static boolean allowforplay = true;
     
-
+    //theGame was developed by my collaborative partner
+    //contains instructions for input from user and output by game
     public static void theGame() {
         previousCards.clear();
         previousCardsDealer.clear();
@@ -79,6 +80,9 @@ public class BlackJack {
         }
     }
 
+    static public int value;
+    public static ArrayList<Integer> previousCards = new ArrayList<Integer>();
+    static public int playerTotal;
     public static void getCard(int value) {
         previousCards.clear();
         for(int i=1; i<=2; i++) {
@@ -118,7 +122,9 @@ public class BlackJack {
             }
         }
     }
-
+    
+    //getCardHit is nearly identical to getCard but the for loop instead runs one time
+    //to draw only one card to add to the user's hand
     public static void getCardHit(int value) {
         previousCards.clear();
         for(int i=1; i<=1; i++) {
@@ -305,12 +311,14 @@ public class BlackJack {
         }
     }
 
+    //written by my collaborative partner
     public static void next() {
         System.out.println("Please enter Play to start playing the game");
         System.out.println("You can leave the game by typing Exit");
         System.out.println("Have Fun!"); 
     }
 
+    //instructions printed out for user input; written by my collaborative partner
     public static void theScript() {
         System.out.println ("Welcome to Cpu BlackJack");
         System.out.println ("Here are the rules"); 
@@ -338,6 +346,7 @@ public class BlackJack {
         System.out.println ("good luck!");
     }
 
+    //playerFold and finishthegame were both developed by my collaborative partner
     public static void playerFold() {
         System.out.println("You have chosen to fold. The final value of your hand is " + playerTotal);
         getCardDealerHit(value, dealerfold, dealerTotal);
